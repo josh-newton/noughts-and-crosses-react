@@ -1,3 +1,8 @@
+.board-row{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
 .board-row:after {
   clear: both;
   content: "";
