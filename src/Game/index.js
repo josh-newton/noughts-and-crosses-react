@@ -3,6 +3,7 @@ import './index.scss';
 
 // Components
 import Board from '../Board'
+import AI from '../lib/AI.js'
 
 function calculateWinner(squares) {
   const lines = [
@@ -34,11 +35,28 @@ class Game extends Component {
         squares: Array(9).fill(null)
       }],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      ai: new AI()
     };
+
+    this.playAINextMove = this.playAINextMove.bind(this);
   }
 
-  handleClick(i) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.xIsNext !== prevState.xIsNext && this.state.xIsNext === false) {
+      const history = this.state.history.slice(0, this.state.stepNumber + 1);
+      const current = history[history.length - 1];
+      const squares =  current.squares.slice();
+      this.playAINextMove(squares);
+    }
+  }
+
+  playAINextMove(squares) {
+    let move = this.state.ai.getNextMove(squares);
+    this.handleMove(move);
+  }
+
+  handleMove(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares =  current.squares.slice();
@@ -87,13 +105,15 @@ class Game extends Component {
 
     return (
       <div className="game">
+        <div className="game-info">
+          <p>{status}</p>
+        </div>
         <div className="game-board">
           <Board
             squares={current.squares}
-            onClick={(i) => this.handleClick(i)}/>
+            onClick={(i) => this.handleMove(i)}/>
         </div>
-        <div className="game-info">
-          <div>{status}</div>
+        <div className="game-history">
           <ol>{moves}</ol>
         </div>
       </div>
