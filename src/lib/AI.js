@@ -1,19 +1,52 @@
 class AI {
-  constructor() {}
-
-  getNextMove(board) {
-    // This will be a heirarchy of AI moves
-    // For now just pick a move at random
-    return this.getRandomMove(board);
+  constructor(board) {
+    this.board = board;
   }
 
-  getRandomMove(board) {
-    let move, isTaken = true;
-    while(isTaken) {
-      move = Math.floor(Math.random() * 9);
-      isTaken = board[move] !== null;
+  updateBoard(board) {
+    this.board = board;
+  }
+
+  isMoveTaken(move) {
+    let board = this.board;
+    return board[move] !== null;
+  }
+
+  takeCentre() {
+    let centre = 4;
+    return !this.isMoveTaken(centre) ? 4 : false;
+  }
+
+  takeCorner() {
+    let corners = [0,2,6,8];
+    for (let corner of corners) {
+      if (!this.isMoveTaken(corner)) {
+        return corner;
+      }
     }
-    return move;
+    return false;
+  }
+
+  getNextMove() {
+    // This will be a heirarchy of AI moves
+    // For now just pick a move at random
+    return (
+      this.takeCentre() ||
+      this.takeCorner() || // If corner is 0 this is skipped
+      this.randomMove()
+    );
+  }
+
+  randomMove() {
+    let move, rand, possMoves = [], board = this.board;
+
+    for(let i = 0; i < board.length; i++){
+      if (!this.isMoveTaken(i)) {
+        possMoves.push(i);
+      }
+    }
+    rand = Math.floor(Math.random() * possMoves.length);
+    return possMoves[rand];
   }
 
 }

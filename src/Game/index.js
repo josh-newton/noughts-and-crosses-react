@@ -35,24 +35,22 @@ class Game extends Component {
         squares: Array(9).fill(null)
       }],
       stepNumber: 0,
-      xIsNext: true,
-      ai: new AI()
+      xIsNext: true
     };
+
+    this.ai = new AI(this.state.history[0].squares);
 
     this.playAINextMove = this.playAINextMove.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.xIsNext !== prevState.xIsNext && this.state.xIsNext === false) {
-      const history = this.state.history.slice(0, this.state.stepNumber + 1);
-      const current = history[history.length - 1];
-      const squares =  current.squares.slice();
-      this.playAINextMove(squares);
+      this.playAINextMove();
     }
   }
 
-  playAINextMove(squares) {
-    let move = this.state.ai.getNextMove(squares);
+  playAINextMove() {
+    let move = this.ai.getNextMove();
     this.handleMove(move);
   }
 
@@ -64,6 +62,7 @@ class Game extends Component {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : '0';
+
     this.setState({
       history: history.concat([{
         squares
@@ -71,6 +70,8 @@ class Game extends Component {
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext
     });
+
+    this.ai.updateBoard(squares);
   }
 
   jumpTo(step) {
