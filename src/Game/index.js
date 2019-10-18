@@ -5,6 +5,8 @@ import './index.scss';
 import Board from '../Board'
 import AI from '../lib/AI.js'
 
+window.DEBUG = true;
+
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -38,12 +40,13 @@ class Game extends Component {
       xIsNext: true
     };
 
-    this.ai = new AI(this.state.history[0].squares);
+    this.ai = new AI(this.state.history[0].squares, '0');
 
     this.playAINextMove = this.playAINextMove.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
+
     if (this.state.xIsNext !== prevState.xIsNext && this.state.xIsNext === false) {
       this.playAINextMove();
     }
