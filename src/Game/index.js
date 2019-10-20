@@ -28,8 +28,16 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const current = history[history.length - 1];
+    const squares =  current.squares.slice();
+    const xIsNext = this.state.xIsNext;
+    const isAITurn = xIsNext !== prevState.xIsNext && !xIsNext;
+    const stepNumber = this.state.stepNumber;
+    const isANewMove = (stepNumber > prevState.stepNumber) && (stepNumber === (history.length - 1)); // i.e. user is not reviewing previous moves from history
+    const isGameOver = this.logic.calculateWinner(squares) || this.logic.calculateDraw(squares);
 
-    if (this.state.xIsNext !== prevState.xIsNext && this.state.xIsNext === false) {
+    if (isAITurn && isANewMove && !isGameOver) {
       this.playAINextMove();
     }
   }
