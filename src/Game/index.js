@@ -4,28 +4,9 @@ import './index.scss';
 // Components
 import Board from '../Board'
 import AI from '../lib/AI.js'
+import Logic from '../lib/Logic.js'
 
 window.DEBUG = true;
-
-function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
 
 class Game extends Component {
 
@@ -40,6 +21,7 @@ class Game extends Component {
       xIsNext: true
     };
 
+    this.logic = new Logic();
     this.ai = new AI(this.state.history[0].squares, '0');
 
     this.playAINextMove = this.playAINextMove.bind(this);
@@ -61,7 +43,7 @@ class Game extends Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares =  current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
+    if (this.logic.calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : '0';
@@ -87,7 +69,8 @@ class Game extends Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
+    const winner = this.logic.calculateWinner(current.squares);
+    const draw = !winner && this.logic.calculateDraw(current.squares);
 
     const moves = history.map((step, move) => {
       const desc = move ? 'Go to move #' + move : 'Go to game start';
@@ -103,6 +86,8 @@ class Game extends Component {
     let status;
     if (winner) {
       status = 'Winner: ' + winner;
+    } else if (draw) {
+      status = 'Draw!'
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
