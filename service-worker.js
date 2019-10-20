@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/noughts-and-crosses-react/precache-manifest.0e0a44079d7db687d3eccbaed6b8180a.js"
+  "/noughts-and-crosses-react/precache-manifest.2c4f8c792a65a5212062bf1e03307915.js"
 );
 
 self.addEventListener('message', (event) => {

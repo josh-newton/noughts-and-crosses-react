@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d87ee335ee49b8b31a96bf8ca8c1e800",
+    "revision": "474888c3cc0707822cf2ae8196176333",
     "url": "/noughts-and-crosses-react/index.html"
   },
   {
-    "revision": "d7bf9f0f309ee1dd332c",
+    "revision": "58c3ff4b6ca90b1791ae",
     "url": "/noughts-and-crosses-react/static/css/main.cc755dc3.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/noughts-and-crosses-react/static/js/2.bde11fb1.chunk.js"
   },
   {
-    "revision": "d7bf9f0f309ee1dd332c",
-    "url": "/noughts-and-crosses-react/static/js/main.3a89fda5.chunk.js"
+    "revision": "58c3ff4b6ca90b1791ae",
+    "url": "/noughts-and-crosses-react/static/js/main.f93d5cf7.chunk.js"
   },
   {
     "revision": "1bba422c39a2121d6e71",
